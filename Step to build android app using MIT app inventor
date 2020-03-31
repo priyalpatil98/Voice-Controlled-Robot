@@ -1,0 +1,70 @@
+Go to official website of MIT App Inventor and create your free account
+http://appinventor.mit.edu/
+
+Add a new project, name it and then follow the step given below.
+
+Draw Basic layout on board
+1. Label for title
+2. bluetooth image
+3. label for status
+4. list picker to connect
+5. button image for voice search
+6. label to mention developer.
+
+Steps (Layout)
+1. Open MIT App Inventor and create an account using gmail.
+2. Create new project and name it.
+3. Add a label, rename it as title and change its settings, text-> Android Voice Control App, textsize->25 , bgcolor-> dark gray
+   width-> fill parent, text align-> center.
+4. Add a image (Bluetooth) , height 100px, width-> fill parent.
+5. Add a label, rename it as status, bgcolor-> gray, font size-> 15, width-> fill parent, text-> blank, align-> center.
+6. Add a list picker, text-> Connect to device, bg color-> light gray, fontbold, font size-> 20, width-> fill parent, 
+   item bg color -> black/darkgray, text align-> center.
+7. Add a button, add a image for it (Voice), height-> 200px, width-> 200px, text-> blank, then add a horizontal align from layout section.
+   Drag and drop button in that layout, align horizontal-> center, width-> fill parent.
+8. Add a label, rename it as command, bg color-> white, fontbold, size-> 20, height-> 20px, width-> fill parent, text-> blank, align-> center
+   text color-> red.
+9. Add a label, rename it as developer, text align-> center, bgcolor-> dark gray, text color-> white, width-> fill parent, height-> 15px.
+10.Add non visible components, Add clock from sensor, Add from connectivity-> activity starter, bluetooth client, Add from media-> 
+   Speech Recognizer.
+
+Steps (Building blocks)
+1. Enter blocks mode from designer mode, from left side navigate screen1 and choose when screen1 initialize, then add else part from blue icon
+   if-> Navigate bluetooth client and choose bluetooth client enabled and add to if part.
+   then-> set status text to "Bluetooth Enabled".
+   else-> set activity Starter1 action to "android.bluetooth.adapter.action.REQUEST_ENABLE"
+   add call activitystarter1 StartActivity just below else part.
+
+2. When ActivityStarter1. AfterActivity
+   do-> right click on then part of 1st block and click on duplicate and drag and join to do section.
+
+3. When ActivityStarter1.ActivityCanceled
+   do-> repeat that step and edit text-> as "Turn on bluetooth".
+
+4. When listpicker1.beforePicking 
+   do-> set listpicker.elements to -> Bluetoothclient1.Addressandnames. 
+
+5. When listpicker1.afterPicking
+   do-> add if else loop 
+   if-> call bluetoothclient1.connect address -> listpicker1.selection
+   then-> set listpicker.elements to -> bluetoothclient1.address and names
+
+6. When clock1.timer 
+   do-> add if else loop twice
+   if-> BLuetoothclient1.IsConnected
+   then-> set listpicker1.text to -> "Connected".
+   if-> add not from logic section -> BluetoothClient1.IsConnected.
+   then->  set listpicker1.text to -> "Connect".
+
+7. When Button1.Click
+   do-> call speechrecognizer1.getText
+
+8. When SpeechRecognizer.BeforeGettingText
+   do-> set command.text to-> " "
+
+9. When SpeechRecognizer.AfterGettingText
+   do-> set command.text to SpeechRecognizer1.result
+        call BluetoothClient1.SendText text -> SpeechRecognizer1.result.
+
+
+
